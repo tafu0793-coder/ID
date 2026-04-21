@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Information — Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-light: #6b6660;
+    --ink-faint: #c4bfb8;
+    --cream: #f7f4ef;
+    --cream-dark: #ede9e2;
+    --gold: #b8975a;
+    --gold-light: #d4b47a;
+    --white: #fdfcfa;
+    --danger: #c0392b;
+    --success: #2e7d5e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── FORM VIEW ── */
+  #formPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: var(--white);
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-bottom: 3px;
+  }
+
+  .admin-access-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--ink-faint);
+    background: transparent;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .admin-access-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .form-hero {
+    background: var(--ink);
+    color: var(--white);
+    padding: 3rem 2.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-hero::before {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 280px;
+    height: 280px;
+    border: 1px solid rgba(184,151,90,0.25);
+    border-radius: 50%;
+  }
+
+  .form-hero::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(184,151,90,0.15);
+    border-radius: 50%;
+  }
+
+  .form-hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .form-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--white);
+  }
+
+  .form-hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .form-hero-sub {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+  }
+
+  .form-body {
+    flex: 1;
+    padding: 2.5rem;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cream-dark);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field-grid.full { grid-template-columns: 1fr; }
+  .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field.span2 { grid-column: span 2; }
+
+  .field label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    font-weight: 500;
+  }
+
+  .field label span.req {
+    color: var(--gold);
+    margin-left: 2px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--cream-dark);
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184,151,90,0.1);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--ink-faint);
+  }
+
+  .field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6660' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  /* Signature pad */
+  .sig-container {
+    border: 1px solid var(--cream-dark);
+    background: var(--white);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sig-label-inner {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .sig-line {
+    position: absolute;
+    bottom: 28px;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1px;
+    background: var(--cream-dark);
+    pointer-events: none;
+  }
+
+  #sigCanvas {
+    display: block;
+    width: 100%;
+    height: 130px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .sig-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.4rem 0.75rem;
+    border-top: 1px solid var(--cream-dark);
+    background: var(--cream);
+  }
+
+  .sig-clear {
+    font-size: 0.7rem;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem 0;
+  }
+
+  .sig-clear:hover { color: var(--danger); }
+
+  /* Submit */
+  .submit-area {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .submit-note {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  .submit-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .submit-btn:hover { background: #2e2a26; }
+  .submit-btn:active { transform: scale(0.98); }
+
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--success);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    z-index: 9999;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── ADMIN VIEW ── */
+  #adminPage {
+    display: none;
+    min-height: 100vh;
+    background: var(--cream);
+  }
+
+  .admin-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin-brand-icon {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-brand-icon svg { width: 16px; height: 16px; fill: var(--gold); }
+
+  .admin-brand-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+
+  .admin-brand-sub {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .back-to-form-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .back-to-form-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .admin-body { padding: 2rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-box {
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .stat-box .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-box .lbl {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-top: 0.3rem;
+  }
+
+  .admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .search-wrap {
+    flex: 1;
+    position: relative;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: var(--ink-faint);
+    stroke-width: 2;
+  }
+
+  #searchInput {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.4rem;
+    border: 1px solid var(--cream-dark);
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  #searchInput:focus { border-color: var(--gold); }
+
+  .export-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--cream-dark);
+    background: var(--white);
+    color: var(--ink-light);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .export-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Table */
+  .table-wrap {
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead tr {
+    background: var(--ink);
+  }
+
+  thead th {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--cream-dark);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--cream); }
+
+  tbody td {
+    padding: 0.9rem 1rem;
+    color: var(--ink);
+    vertical-align: middle;
+  }
+
+  .td-name { font-weight: 500; }
+
+  .td-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+
+  .td-name-wrap { display: flex; align-items: center; gap: 10px; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-m { background: #e8f0fe; color: #1a56db; }
+  .badge-f { background: #fde8f0; color: #c2185b; }
+  .badge-o { background: #f5f0e8; color: #795548; }
+
+  .status-married { color: var(--success); font-size: 0.8rem; }
+  .status-single { color: var(--ink-light); font-size: 0.8rem; }
+  .status-other { color: var(--ink-faint); font-size: 0.8rem; }
+
+  /* Detail modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: modalIn 0.25s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--cream-dark);
+    background: var(--ink);
+  }
+
+  .modal-header-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    background: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+  .modal-body { padding: 1.5rem; }
+
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .modal-field {}
+
+  .modal-field .key {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.2rem;
+  }
+
+  .modal-field .val {
+    font-size: 0.9rem;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .modal-sig-wrap {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--cream-dark);
+  }
+
+  .modal-sig-wrap .key {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-sig-wrap img {
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    max-width: 100%;
+    height: 100px;
+    object-fit: contain;
+    background: var(--cream);
+    display: block;
+  }
+
+  .no-sig { font-size: 0.8rem; color: var(--ink-faint); font-style: italic; }
+
+  .no-data {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  /* Password modal */
+  #pwOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.65);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #pwOverlay.active { display: flex; }
+
+  .pw-card {
+    background: var(--white);
+    width: 340px;
+    border-radius: 2px;
+    overflow: hidden;
+    animation: modalIn 0.22s ease;
+  }
+
+  .pw-card-top {
+    background: var(--ink);
+    padding: 1.5rem;
+  }
+
+  .pw-card-top h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+
+  .pw-card-top p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .pw-card-body { padding: 1.5rem; }
+
+  .pw-card-body label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .pw-card-body input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    background: var(--cream);
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s;
+  }
+
+  .pw-card-body input:focus { border-color: var(--gold); }
+
+  .pw-err-msg {
+    font-size: 0.75rem;
+    color: var(--danger);
+    margin-bottom: 0.75rem;
+    display: none;
+  }
+
+  .pw-btns { display: flex; gap: 0.75rem; }
+
+  .pw-btn-ok {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .pw-btn-ok:hover { background: #2e2a26; }
+
+  .pw-btn-cancel {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.2rem;
+    background: none;
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .pw-btn-cancel:hover { border-color: var(--ink-faint); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .field-grid, .field-grid.thirds { grid-template-columns: 1fr; }
+    .field.span2 { grid-column: span 1; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .form-body { padding: 1.5rem; }
+    .top-bar, .admin-topbar, .admin-body { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .submit-area { flex-direction: column; align-items: stretch; }
+    .submit-note { max-width: 100%; }
+    .modal-grid { grid-template-columns: 1fr; }
+    table { font-size: 0.78rem; }
+    thead th, tbody td { padding: 0.7rem 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ FORM PAGE ═══ -->
+<div id="formPage">
+
+  <div class="top-bar">
+    <div class="brand">
+      <span class="brand-name">Registra</span>
+      <div class="brand-dot"></div>
+    </div>
+    <button class="admin-access-btn" onclick="openPwModal()">Admin Panel</button>
+  </div>
+
+  <div class="form-hero">
+    <div class="form-hero-eyebrow">Secure registration form</div>
+    <div class="form-hero-title">Personal <em>Information</em><br>Registration</div>
+    <div class="form-hero-sub">All fields marked * are required</div>
+  </div>
+
+  <div class="form-body">
+
+    <div class="section-label">Identity</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Surname <span class="req">*</span></label>
+        <input type="text" id="surname" placeholder="Family name">
+      </div>
+      <div class="field">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" id="firstname" placeholder="Given name">
+      </div>
+      <div class="field">
+        <label>Gender <span class="req">*</span></label>
+        <select id="gender">
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Non-binary">Non-binary</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Marital Status <span class="req">*</span></label>
+        <select id="marital">
+          <option value="">Select status</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Widowed">Widowed</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-label">Contact</div>
+    <div class="field-grid full">
+      <div class="field">
+        <label>Country <span class="req">*</span></label>
+        <input type="text" id="country" placeholder="Country of residence">
+      </div>
+    </div>
+    <div class="field-grid">
+      <div class="field span2">
+        <label>Address</label>
+        <input type="text" id="address" placeholder="Street address, city, postal code">
+      </div>
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="+1 555 000 0000">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+    </div>
+
+    <div class="section-label">Professional</div>
+    <div class="field-grid full">
+      <div class="field">
+        <label>Profession / Job Title</label>
+        <input type="text" id="profession" placeholder="e.g. Software Engineer, Teacher, Doctor…">
+      </div>
+    </div>
+
+    <div class="section-label">Signature</div>
+    <div class="field">
+      <label>Draw your signature below</label>
+      <div class="sig-container">
+        <canvas id="sigCanvas"></canvas>
+        <div class="sig-line"></div>
+        <div class="sig-label-inner">Sign above the line</div>
+        <div class="sig-actions">
+          <button class="sig-clear" onclick="clearSig()">Clear signature</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <div class="submit-note">Your information is stored securely and used for registration purposes only.</div>
+      <button class="submit-btn" onclick="submitForm()">Submit Registration</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ ADMIN PAGE ═══ -->
+<div id="adminPage">
+
+  <div class="admin-topbar">
+    <div class="admin-brand">
+      <div class="admin-brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+      </div>
+      <div>
+        <div class="admin-brand-text">Admin Panel</div>
+        <div class="admin-brand-sub">Registra — All submissions</div>
+      </div>
+    </div>
+    <button class="back-to-form-btn" onclick="showForm()">← Back to Form</button>
+  </div>
+
+  <div class="admin-body">
+    <div class="stats-row">
+      <div class="stat-box"><div class="num" id="statTotal">0</div><div class="lbl">Total registrations</div></div>
+      <div class="stat-box"><div class="num" id="statMale">0</div><div class="lbl">Male</div></div>
+      <div class="stat-box"><div class="num" id="statFemale">0</div><div class="lbl">Female</div></div>
+      <div class="stat-box"><div class="num" id="statCountries">0</div><div class="lbl">Countries</div></div>
+    </div>
+
+    <div class="admin-toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        <input type="text" id="searchInput" placeholder="Search by name, country, profession…" oninput="renderTable()">
+      </div>
+      <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Country</th>
+            <th>Profession</th>
+            <th>Marital</th>
+            <th>Registered</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div id="noData" class="no-data" style="display:none">No registrations yet. Be the first to submit.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-name" id="modalName">—</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid" id="modalGrid"></div>
+      <div class="modal-sig-wrap" id="modalSigWrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div id="pwOverlay">
+  <div class="pw-card">
+    <div class="pw-card-top">
+      <h3>Admin Access</h3>
+      <p>Enter the administrator password to continue.</p>
+    </div>
+    <div class="pw-card-body">
+      <label>Password</label>
+      <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+      <div class="pw-err-msg" id="pwErr">Incorrect password. Please try again.</div>
+      <div class="pw-btns">
+        <button class="pw-btn-cancel" onclick="closePwModal()">Cancel</button>
+        <button class="pw-btn-ok" onclick="checkPw()">Enter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Registration submitted successfully.</div>
+
+<script>
+// ── CONFIG ──
+const ADMIN_PW = "admin123";
+
+// ── DATA STORE ──
+let registrations = [];
+
+// ── SIGNATURE ──
+const canvas = document.getElementById('sigCanvas');
+const ctx = canvas.getContext('2d');
+let drawing = false, hasSig = false;
+
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = 130 * dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = '130px';
+  ctx.strokeStyle = '#1a1814';
+  ctx.lineWidth = 1.8;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+window.addEventListener('load', resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const src = e.touches ? e.touches[0] : e;
+  return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+}
+
+canvas.addEventListener('mousedown', e => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; });
+canvas.addEventListener('mouseup', () => drawing = false);
+canvas.addEventListener('mouseleave', () => drawing = false);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; }, { passive: false });
+canvas.addEventListener('touchend', () => drawing = false);
+
+function clearSig() {
+  const dpr = window.devicePixelRatio || 1;
+  ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+  hasSig = false;
+}
+
+// ── FORM SUBMIT ──
+function gv(id) { return document.getElementById(id).value.trim(); }
+
+function submitForm() {
+  const surname = gv('surname'), firstname = gv('firstname');
+  const gender = gv('gender'), marital = gv('marital'), country = gv('country');
+
+  if (!surname) { alert('Please enter your surname.'); document.getElementById('surname').focus(); return; }
+  if (!firstname) { alert('Please enter your first name.'); document.getElementById('firstname').focus(); return; }
+  if (!gender) { alert('Please select your gender.'); document.getElementById('gender').focus(); return; }
+  if (!marital) { alert('Please select your marital status.'); document.getElementById('marital').focus(); return; }
+  if (!country) { alert('Please enter your country.'); document.getElementById('country').focus(); return; }
+
+  const sigData = hasSig ? canvas.toDataURL('image/png') : null;
+
+  const entry = {
+    id: registrations.length + 1,
+    surname, firstname,
+    gender, marital, country,
+    address: gv('address'),
+    phone: gv('phone'),
+    email: gv('email'),
+    profession: gv('profession'),
+    signature: sigData,
+    registeredAt: new Date().toLocaleString()
+  };
+
+  registrations.push(entry);
+
+  // reset
+  ['surname','firstname','address','phone','email','profession','country'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('gender').value = '';
+  document.getElementById('marital').value = '';
+  clearSig();
+
+  const toast = document.getElementById('toast');
+  toast.style.display = 'block';
+  setTimeout(() => toast.style.display = 'none', 3500);
+}
+
+// ── ADMIN ──
+function openPwModal() {
+  document.getElementById('pwOverlay').classList.add('active');
+  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+}
+
+function closePwModal() {
+  document.getElementById('pwOverlay').classList.remove('active');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwErr').style.display = 'none';
+}
+
+function checkPw() {
+  if (document.getElementById('pwInput').value === ADMIN_PW) {
+    closePwModal();
+    showAdmin();
+  } else {
+    document.getElementById('pwErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function showAdmin() {
+  document.getElementById('formPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'block';
+  renderTable();
+}
+
+function showForm() {
+  document.getElementById('adminPage').style.display = 'none';
+  document.getElementById('formPage').style.display = 'flex';
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = registrations.length;
+  document.getElementById('statMale').textContent = registrations.filter(r => r.gender === 'Male').length;
+  document.getElementById('statFemale').textContent = registrations.filter(r => r.gender === 'Female').length;
+  const countries = new Set(registrations.map(r => r.country).filter(Boolean)).size;
+  document.getElementById('statCountries').textContent = countries;
+}
+
+function renderTable() {
+  updateStats();
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = registrations.filter(r => {
+    return (r.surname + r.firstname + r.country + r.profession + r.email).toLowerCase().includes(q);
+  });
+
+  const body = document.getElementById('tableBody');
+  const noData = document.getElementById('noData');
+
+  if (filtered.length === 0) {
+    body.innerHTML = '';
+    noData.style.display = 'block';
+    return;
+  }
+
+  noData.style.display = 'none';
+
+  const genderBadge = g => {
+    if (g === 'Male') return `<span class="badge badge-m">M</span>`;
+    if (g === 'Female') return `<span class="badge badge-f">F</span>`;
+    return `<span class="badge badge-o">—</span>`;
+  };
+
+  const maritalClass = m => {
+    if (m === 'Married') return 'status-married';
+    if (m === 'Single') return 'status-single';
+    return 'status-other';
+  };
+
+  body.innerHTML = filtered.map(r => {
+    const initials = (r.surname[0] + r.firstname[0]).toUpperCase();
+    return `<tr onclick="openDetail(${r.id - 1})">
+      <td style="color:var(--ink-faint);font-size:0.78rem">${r.id}</td>
+      <td><div class="td-name-wrap"><div class="td-avatar">${initials}</div><span class="td-name">${r.surname}, ${r.firstname}</span></div></td>
+      <td>${genderBadge(r.gender)}</td>
+      <td>${r.country || '—'}</td>
+      <td style="color:var(--ink-light)">${r.profession || '—'}</td>
+      <td><span class="${maritalClass(r.marital)}">${r.marital || '—'}</span></td>
+      <td style="color:var(--ink-faint);font-size:0.78rem;white-space:nowrap">${r.registeredAt}</td>
+    </tr>`;
+  }).join('');
+}
+
+function openDetail(idx) {
+  const r = registrations[idx];
+  document.getElementById('modalName').textContent = `${r.firstname} ${r.surname}`;
+
+  const fields = [
+    ['Surname', r.surname], ['First Name', r.firstname],
+    ['Gender', r.gender], ['Marital Status', r.marital],
+    ['Country', r.country || '—'], ['Address', r.address || '—'],
+    ['Phone', r.phone || '—'], ['Email', r.email || '—'],
+    ['Profession', r.profession || '—'], ['Registered', r.registeredAt]
+  ];
+
+  document.getElementById('modalGrid').innerHTML = fields.map(([k, v]) =>
+    `<div class="modal-field"><div class="key">${k}</div><div class="val">${v}</div></div>`
+  ).join('');
+
+  const sigWrap = document.getElementById('modalSigWrap');
+  sigWrap.innerHTML = `<div class="key">Signature</div>` + (r.signature
+    ? `<img src="${r.signature}" alt="Signature">`
+    : `<div class="no-sig">No signature provided</div>`);
+
+  document.getElementById('detailModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('active');
+}
+
+document.getElementById('detailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── CSV EXPORT ──
+function exportCSV() {
+  if (registrations.length === 0) { alert('No data to export.'); return; }
+  const headers = ['ID','Surname','First Name','Gender','Marital Status','Country','Address','Phone','Email','Profession','Registered'];
+  const rows = registrations.map(r => [
+    r.id, r.surname, r.firstname, r.gender, r.marital, r.country,
+    r.address, r.phone, r.email, r.profession, r.registeredAt
+  ].map(v => `"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'registrations.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
